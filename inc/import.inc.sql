@@ -1,0 +1,50 @@
+CREATE TABLE IF NOT EXISTS `Template` (
+	`TemplateId` INT NOT NULL AUTO_INCREMENT,
+	`TemplateName` TEXT NULL,
+	`TimeStamp` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`ShowResult` VARCHAR(45) NULL,
+	`IATtype` VARCHAR(45) NULL,
+	PRIMARY KEY (`TemplateId`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Category` (
+	`CategoryId` INT NOT NULL AUTO_INCREMENT,
+	`CategoryName` VARCHAR(45) NULL,
+	`DataLabel` VARCHAR(45) NULL,
+	`ItemType` VARCHAR(45) NULL,
+	`Label` VARCHAR(45) NULL,
+	PRIMARY KEY (`CategoryId`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Template_has_category` (
+	`Template_TemplateId` INT NOT NULL,
+	`Category_CategoryId` INT NOT NULL,
+	PRIMARY KEY (`Template_TemplateId`, `Category_CategoryId`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Item` (
+	`ItemId` INT NOT NULL AUTO_INCREMENT,
+	`Items` TEXT NULL,
+	PRIMARY KEY (`ItemId`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Category_has_item` (
+	`Category_CategoryId` INT NOT NULL,
+	`Item_ItemId` INT NOT NULL,
+	PRIMARY KEY (`Category_CategoryId`, `Item_ItemId`)
+) ENGINE = InnoDB;
+
+CREATE TABLE IF NOT EXISTS `Result` (
+	`ResultId` INT NOT NULL AUTO_INCREMENT,
+	`TemplateId` INT NOT NULL,
+	`TemplateName` TEXT NULL,
+	`Blocki` INT NULL,
+	`Trialj` INT NULL,
+	`Category` VARCHAR(45) NULL,
+	`ItemIndex` VARCHAR(45) NULL,
+	`Errors` VARCHAR(45) NULL,
+	`MSeconds` VARCHAR(45) NULL,
+	`TimeStamp` TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`User` VARCHAR(45) NULL,
+	PRIMARY KEY (`ResultId`)
+) ENGINE = InnoDB;
