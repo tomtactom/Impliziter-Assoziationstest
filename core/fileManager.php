@@ -38,7 +38,7 @@ function updateActive($optArr=NULL)
 {
 	$active_str = file_get_contents('../templates/active.txt');
 	$active = json_decode($active_str);
-	
+
 	// When "op" = "setActive", calls updateActive with 'newActive' option set
 	if(isset($optArr) && isset($optArr['newActive']))
 	{
@@ -58,9 +58,9 @@ function updateActive($optArr=NULL)
 			$active->active = 'Empty';
 		}
 	}
-	
+
 	$available = array();
-	if ($handle = opendir('../templates/')) 
+	if ($handle = opendir('../templates/'))
 	{
 	    $blacklist = array('.', '..', 'active.txt');
 	    while (false !== ($file = readdir($handle))) {
@@ -72,11 +72,11 @@ function updateActive($optArr=NULL)
 	}
 	natcasesort($available);
 	$active->available = $available;
-	
+
 	$active_fh = fopen("../templates/active.txt", 'w');
 	fwrite($active_fh, json_encode($active));
 	fclose($active_fh);
-	
+
 }
 
 
@@ -94,7 +94,7 @@ function getstats($completed)
 	{
 		if(endsWith($fname, ".txt"))
 		{
-			
+
 		}
 	}
 }
@@ -108,7 +108,7 @@ if( isset($_REQUEST['op']) )
 	{
 		case 'exists':
 			if( isset($_REQUEST['template']) )
-			{		
+			{
 				if( isset($_REQUEST['files']) )
 				{
 					$newfiles = array();
@@ -139,7 +139,7 @@ if( isset($_REQUEST['op']) )
 		case 'setActive':
 			if( isset($_REQUEST['template']) )
 			{
-				$optArr = array('newActive' => $_REQUEST['template']);		
+				$optArr = array('newActive' => $_REQUEST['template']);
 				updateActive($optArr);
 				echo "success";
 			}
@@ -150,7 +150,7 @@ if( isset($_REQUEST['op']) )
 			break;
 		case 'saveTemplate':
 			if( isset($_REQUEST['template']) )
-			{		
+			{
 				if( isset($_REQUEST['oldname']) && isset($_REQUEST['form']) )
 				{
 					$newform = $newTemplate;
@@ -164,7 +164,7 @@ if( isset($_REQUEST['op']) )
 						$errors = "";
 						// template name is set and is < 30 characters
 						if(!isset($form["template-name"]) ||
-							strlen($form["template-name"]) > 30 /*|| 
+							strlen($form["template-name"]) > 30 /*||
 							$form["template-name"] != preg_replace('/[^\p{L}\p{N}]+/','',$form["template-name"])*/)
 						{
 							$errors .= "<li class='error-item'>";
@@ -220,7 +220,7 @@ if( isset($_REQUEST['op']) )
 							{
 								// category name
 								if(!isset($form["tabs".$i."-catlabel-input"]) ||
-									strlen($form["tabs".$i."-catlabel-input"]) > 30 || 
+									strlen($form["tabs".$i."-catlabel-input"]) > 30 ||
 									$form["tabs".$i."-catlabel-input"] != preg_replace('/[^\p{L}\p{N}\-\(\)\$\#\@\? ]+/u', '', $form["tabs".$i."-catlabel-input"]))
 								{
 									$errors .= "<li class='error-item'>";
@@ -234,7 +234,7 @@ if( isset($_REQUEST['op']) )
 								}
 								// data label
 								if(!isset($form["tabs".$i."-datalabel-input"]) ||
-									strlen($form["tabs".$i."-datalabel-input"]) > 3 || 
+									strlen($form["tabs".$i."-datalabel-input"]) > 3 ||
 									$form["tabs".$i."-datalabel-input"] != preg_replace('/[^\p{L}\p{N}]+/u','',$form["tabs".$i."-datalabel-input"]))
 								{
 									$errors .= "<li class='error-item'>";
@@ -269,7 +269,7 @@ if( isset($_REQUEST['op']) )
 										echo "Error 2.7: Maximum item number not set for category " . $catnames[$i-1];
 									}
 									else
-									{	
+									{
 										// for each item
 										for ($j=0; $j<=$form["max-cat".$catnames[$i-1]]; $j++)
 										{
@@ -297,13 +297,13 @@ if( isset($_REQUEST['op']) )
 													else
 													{
 														array_push($newform["cat".$catnames[$i-1]]["items"], $form["cat".$catnames[$i-1].$j."-txt"]);
-														
+
 													}
 												}
 											}
 											// if images
 											else
-											{	
+											{
 												// some values of $j might not exist if items deleted
 												if(array_key_exists("cat".$catnames[$i-1].$j."-txt", $form))
 												{
@@ -324,19 +324,19 @@ if( isset($_REQUEST['op']) )
 													}
 												}
 											}
-										}	
+										}
 									}
 								}
 
 							}
 						}
-						
+
 						// if no errors
 						if(strlen($errors) == 0)
 						{
 							// encode object as JSON string
 							$json_template = json_encode($newform);
-							
+
 							// if new template
 							if ($_REQUEST['oldname'] == "Empty")
 							{
@@ -349,10 +349,10 @@ if( isset($_REQUEST['op']) )
 							}
 							// else if template name has changed
 							else if ($_REQUEST['oldname'] != $form["template-name"])
-							{	
+							{
 								// checked for template-name conflict happened earlier, so this is safe
 								rename("../templates/".$_REQUEST['oldname'],"../templates/".$form["template-name"]);
-								
+
 								// check if old name is currently active, if so, change
 								// also need to rename in active.txt
 								$optArr = array('oldName'	=> $_REQUEST['oldname'],
@@ -377,7 +377,7 @@ if( isset($_REQUEST['op']) )
 							}
 							$returnstring = substr($returnstring, 0, -1);
 							$returnstring .= '}, "errors":"'.$errors.'"}';
-							echo $returnstring;	
+							echo $returnstring;
 						}
 					}
 				}
@@ -393,9 +393,9 @@ if( isset($_REQUEST['op']) )
 			break;
 		case 'deleteTemplate':
 			if( isset($_REQUEST['template']) )
-			{	
+			{
 				$folder_dir = "../templates/".$_REQUEST['template'];
-				
+
 				if( file_exists($folder_dir) )
 				{
 					if(file_exists($folder_dir."/img"))
@@ -419,7 +419,7 @@ if( isset($_REQUEST['op']) )
 						unlink($folder_dir."/input.txt");
 					}
 					rmdir($folder_dir);
-					
+
 					$optArr = array('oldName'	=> $_REQUEST['template'],
 									'op'		=> 'deleteTemplate');
 					updateActive($optArr);
@@ -428,8 +428,8 @@ if( isset($_REQUEST['op']) )
 				{
 					echo "Error 5.1: template does not exist";
 				}
-			} 
-			else	
+			}
+			else
 			{
 				echo "Error 6.0: template name not specified";
 			}
@@ -446,8 +446,8 @@ if( isset($_REQUEST['op']) )
 				{
 					echo "Error 4.1: output directory not specified";
 				}
-			} 
-			else	
+			}
+			else
 			{
 				echo "Error 4.0: root directory not specified";
 			}
@@ -458,53 +458,53 @@ if( isset($_REQUEST['op']) )
 			if( isset($_REQUEST['template']) )
 			{
 				if( isset($_REQUEST['data']) )
-				{	
-					
+				{
+
 					$folder_dir = "../templates/".$_REQUEST['template']."/output/";
 
 					$sub = isset( $_REQUEST['subject'] ) ? $_REQUEST['subject'] : 'unknown2' ;
 
-					$data = $_REQUEST["data"]; 
+					$data = $_REQUEST["data"];
 					$datetxt = date('Y-m-d-H-s');
 					$fh = fopen($folder_dir. $_REQUEST['template'] . "-" . $sub . '-' . $datetxt . '.txt', 'w');
 					fwrite($fh, $data);
 					fclose($fh);
-					
-					
-									
+
+
+
 				}
 				else
 				{
 					echo "Error 5.1: data not provided";
 				}
-			} 
-			else	
+			}
+			else
 			{
 				echo "Error 5.0: template name not specified";
 			}
 			break;
-			
+
 		case 'writedatabase':
 			if( isset($_REQUEST['template']) )
 				{
 					if( isset($_REQUEST['data']) )
-					{	
-						
+					{
+
 						$dsn = "mysql:host=localhost";
 						try {
 							$pdo = new PDO($dsn, "IATexp555","myIAT");
 						}
-						catch(PDOException $e) { 
+						catch(PDOException $e) {
                 			echo 'ERROR: ' . $e->getMessage();
                 			break;
             			}
-            			
+
             			$dsn = "mysql:host=localhost";
 						$pdo = new PDO($dsn, "IATexp555","myIAT");
 						$pdo->query("USE `IAT555`;");
-						
+
 						$sub = isset( $_REQUEST['subject'] ) ? $_REQUEST['subject'] : 'unknown2' ; //Subject Identifier
-						$data = $_REQUEST["data"]; 
+						$data = $_REQUEST["data"];
 						$tempname = isset( $_REQUEST['template'] ) ? $_REQUEST['template'] : 'Templateunknown' ; //Science etc
 						$catindex = $_POST['catindex'];
 						$category = $_POST['category'];
@@ -512,25 +512,25 @@ if( isset($_REQUEST['op']) )
 						$dataj = $_POST['dataj'];
 						$errors = $_POST['errors'];
 						$mseconds = $_POST['mseconds'];
-						
-						
-						$sqltemplateid = $pdo->query("select * from Template where TemplateName='$tempname' Order By Templateid Desc Limit 0,1")->fetchColumn(); 
+
+
+						$sqltemplateid = $pdo->query("select * from Template where TemplateName='$tempname' Order By Templateid Desc Limit 0,1")->fetchColumn();
 						$queryinsert = $pdo->prepare("INSERT INTO Result(Templateid,TemplateName,Blocki,Trialj,Category,ItemIndex,Errors,Mseconds,User) VALUES ('$sqltemplateid','$tempname','$datai','$dataj','$category','$catindex','$errors','$mseconds','$sub');");
 						$queryinsert->execute();
 						}
 				}
-				
+
 			break;
 		case 'checkdb':
 		if( isset($_REQUEST['template']) )
 				{
-						
+
 						$filepath=realpath(dirname(getcwd()));
 						$filename = $filepath. '/input-text';
 						if (file_exists($filename)) {
     						echo "The file $filename exists";
     						//error_log(print_r("The file $filename exists", TRUE));
-						} else 
+						} else
 							{
     						echo "The file $filename does not exist";
     						//error_log(print_r("The file $filename does not exist", TRUE));
@@ -540,22 +540,22 @@ if( isset($_REQUEST['op']) )
 								//error_log(print_r("Database exists", TRUE));
 								echo 'success';
 							}
-							catch(PDOException $e) { 
+							catch(PDOException $e) {
                 				echo 'ERROR';
                 				//error_log(print_r("Database doesn't exist", TRUE));
             				}
             			}
-            		
-            		
+
+
             	}
-		
+
 			break;
 		case 'writeinput':
 			if( isset($_REQUEST['template']) )
 				{
 				if (isset($_REQUEST['form']) )
 					{
-						
+
 
             			$dsn = "mysql:host=localhost";
             			$pdo = new PDO($dsn, "IATexp555","myIAT");
@@ -567,7 +567,7 @@ if( isset($_REQUEST['op']) )
 						$queryinsert = $pdo->prepare("INSERT INTO Template(TemplateName,ShowResult,IATtype) VALUES ('$templatename','$showresult','2');");
 						$queryinsert->execute();
 						$lasttempid=$pdo->lastInsertId();
-						
+
 						$catnames = array("A","B","1","2");
 						$form = array();
 						parse_str($_POST['form'], $form);
@@ -582,14 +582,14 @@ if( isset($_REQUEST['op']) )
 								}
 							$z=$form["tabs".$i."-catlabel-input"];
 							$dl=$form["tabs".$i."-datalabel-input"];
-							
-							$nRows = $pdo->query("select count(*) from Category where Categoryname='$categoryname' and DataLabel='$dl' and ItemType='$istxt' and Label='$z'")->fetchColumn(); 
-							
+
+							$nRows = $pdo->query("select count(*) from Category where Categoryname='$categoryname' and DataLabel='$dl' and ItemType='$istxt' and Label='$z'")->fetchColumn();
+
 							if ($nRows > 0) {
-								$categoryid = $pdo->query("Select Categoryid from Category where Categoryname='$categoryname' and DataLabel='$dl' and ItemType='$istxt' and Label='$z'")->fetchColumn(); 
+								$categoryid = $pdo->query("Select Categoryid from Category where Categoryname='$categoryname' and DataLabel='$dl' and ItemType='$istxt' and Label='$z'")->fetchColumn();
 								$queryinsert = $pdo->prepare("INSERT INTO Template_has_category(Template_Templateid,Category_Categoryid) VALUES ('$lasttempid','$categoryid');");
 								$queryinsert->execute();
-								
+
 								for ($j=0; $j<=$form["max-cat".$catnames[$i-1]]; $j++)
 										{
 										if(array_key_exists("cat".$catnames[$i-1].$j."-txt", $form))
@@ -600,7 +600,7 @@ if( isset($_REQUEST['op']) )
 											$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
 											$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$categoryid' and Item_itemid='$itemid'")->fetchColumn();
 											if ($ncatitemRows <= 0) {
-												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$categoryid','$itemid');"); 
+												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$categoryid','$itemid');");
 												$queryinsert->execute();}
 											}
 										else {
@@ -611,7 +611,7 @@ if( isset($_REQUEST['op']) )
 												$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
 												$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$categoryid' and Item_itemid='$itemid'")->fetchColumn();
 												if ($ncatitemRows <= 0) {
-													$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$categoryid','$itemid');"); 
+													$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$categoryid','$itemid');");
 													$queryinsert->execute(); }
 															}
 												}
@@ -635,7 +635,7 @@ if( isset($_REQUEST['op']) )
 											$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
 											$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$lastcatid' and Item_itemid='$itemid'")->fetchColumn();
 											if ($ncatitemRows <= 0) {
-												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$lastcatid','$itemid');"); 
+												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$lastcatid','$itemid');");
 												$queryinsert->execute();}
 											}
 										else {
@@ -646,25 +646,25 @@ if( isset($_REQUEST['op']) )
 											$itemid = $pdo->query("select Itemid from Item where Items='$oo'")->fetchColumn();
 											$ncatitemRows = $pdo->query("select count(*) from Category_has_item where Category_Categoryid='$lastcatid' and Item_itemid='$itemid'")->fetchColumn();
 											if ($ncatitemRows <= 0) {
-												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$lastcatid','$itemid');"); 
+												$queryinsert = $pdo->prepare("INSERT INTO Category_has_Item(Category_Categoryid,Item_Itemid) VALUES ('$lastcatid','$itemid');");
 												$queryinsert->execute(); }
 															}
 										}
 									}
 							  }
-						
-							
+
+
 						}
-						
+
 					}
-						
+
 				}
 			}
-				
+
 			break;
-	}	
-} 
-else 
+	}
+}
+else
 {
 	echo "Error -1: no operation specified";
 }

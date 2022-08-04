@@ -1,21 +1,18 @@
 <html>
 	<head>
 		<title>IAT</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<!--<link type="text/css" href="core/css/overcast/jquery-ui-1.8.18.custom.css" rel="stylesheet" />-->
-		<style type="text/css"> @import "core/css/iat.css";</style>
+		<meta charset="UTF-8">
+		<link href="core/css/iat.css" rel="stylesheet">
 		<script type="text/javascript" src="core/js/jquery-3.6.0.min.js"></script>
 		<script type="text/javascript" src="core/js/IAT.js"></script>
 		<script type="text/javascript">
 			initialize();
 		</script>
 	</head>
-
-<body>
-
-<div id="instructions">
-    JavaScript muss aktiviert sein, damit die Webseite funktioniert.<br><br>
-    Bitte aktiviere JavaScript um fortzufahren.<br><br>
-</div>
-
-</body>
+	<body>
+		<div id="instructions">
+		    JavaScript muss aktiviert sein, damit die Webseite funktioniert.<br><br>
+		    Bitte aktiviere JavaScript um fortzufahren.<br><br>
+		</div>
+	</body>
+</html>
